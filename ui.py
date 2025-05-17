@@ -38,7 +38,9 @@ st.markdown("""
 
 st.title("🎬 AI-Powered Movie Recommender")
 
-tab1, tab2 = st.tabs(["🔍 Discover Movies", "🎞️ Short Films"])
+#tab1, tab2 = st.tabs(["🔍 Discover Movies", "🎞️ Short Films"])
+tab1, tab2, tab3 = st.tabs(["🔍 Discover Movies", "🎞️ Short Films", "🧹 Data Preprocessing"])
+
 
 with tab1:
     search_method = st.radio("Choose Input Method:", ["Text", "Speech"], horizontal=True)
@@ -109,3 +111,50 @@ with tab2:
         st.subheader(f"{idx}. {film['title']}")
         st.image(film["poster"], width=300)
         st.video(film["video"])
+
+with tab3:
+    st.header("🧹 Data Preprocessing Demo")
+
+    # Sample data (simulate API response — you can replace with live search_movie results too)
+    movies = [
+        {"title": "Inception", "rating": 8.8, "overview": "A thief steals dreams.", "genre": "Sci-Fi"},
+        {"title": "Titanic", "rating": 7.9, "overview": "Ship sinks.", "genre": "Romance"},
+        {"title": None, "rating": 7.0, "overview": None, "genre": "Drama"},
+        {"title": "Titanic", "rating": 7.9, "overview": "Ship sinks.", "genre": "Romance"}
+    ]
+
+    import pandas as pd
+    df = pd.DataFrame(movies)
+
+    st.subheader("📋 Before Preprocessing")
+    st.dataframe(df)
+
+    # Handle missing values
+    df.fillna("Unknown", inplace=True)
+
+    # Remove duplicates
+    df.drop_duplicates(inplace=True)
+
+    st.subheader("✅ After Preprocessing")
+    st.dataframe(df)
+
+st.subheader("📈 Rating Distribution")
+st.bar_chart(df['rating'].value_counts().sort_index())
+
+st.subheader("🎭 Genre Frequency")
+st.bar_chart(df['genre'].value_counts())
+
+
+
+
+import pandas as pd
+
+# Sample DataFrame for demonstration
+df = pd.DataFrame({
+    "title": ["Inception", "Titanic", "Avatar", "The Matrix", "Gladiator"],
+    "rating": [8.8, 7.8, 7.9, 8.7, 8.5],
+    "genre": ["Sci-Fi", "Romance", "Sci-Fi", "Action", "Historical"]
+})
+
+st.subheader("📊 Sample Movie Data (df.head())")
+st.dataframe(df.head())
